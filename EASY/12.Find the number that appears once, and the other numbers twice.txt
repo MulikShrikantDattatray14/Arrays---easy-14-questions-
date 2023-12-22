@@ -1,0 +1,179 @@
+Problem Statement: Given a non-empty array of integers arr, every element appears twice except for one. Find that single one.
+
+Examples
+Example 1:
+Input Format: arr[] = {2,2,1}
+Result: 1
+Explanation: In this array, only the element 1 appear once and so it is the answer.
+
+Example 2:
+Input Format: arr[] = {4,1,2,1,2}
+Result: 4
+Explanation: In this array, only element 4 appear once and the other elements appear twice. So, 4 is the answer.
+///////////////////////////////////////////////////////////////////////////////
+Naive Approach(Brute-force approach): 
+Intuition:
+For every element present in the array, we will do a linear search and count the occurrence. If for any element, the occurrence is 1, we will return it.
+
+CODE:
+
+function getSingleElement(arr) {
+  // Size of the array:
+  const n = arr.length;
+
+  // Run a loop for selecting elements:
+  for (let i = 0; i < n; i++) {
+    const num = arr[i]; // selected element
+    let cnt = 0;
+
+    // Find the occurrence using linear search:
+    for (let j = 0; j < n; j++) {
+      if (arr[j] === num) {
+        cnt++;
+      }
+    }
+
+    // If the occurrence is 1, return the number:
+    if (cnt === 1) {
+      return num;
+    }
+  }
+
+  // This line will never execute
+  // if the array contains a single element.
+  return -1;
+}
+
+function main() {
+  const arr = [4, 1, 2, 1, 2];
+  const ans = getSingleElement(arr);
+  console.log("The single element is:", ans);
+}
+
+main();
+
+Complexity Analysis : 
+
+Time Complexity: O(N2), where N = size of the given array.
+Reason: For every element, we are performing a linear search to count its occurrence. The linear search takes O(N) time complexity. And there are N elements in the array. So, the total time complexity will be O(N2).
+
+Space Complexity: O(1) as we are not using any extra space.
+
+/////////////////////////////////////////////////////////////////////////////////////
+
+Algorithm / Intuition 
+Better Approach(Using Hashing): 
+
+Intuition:
+In the previous approach, we were finding the occurrence of an element using linear search. We can optimize this using hashing technique. We can simply hash the elements along with their occurrences in the form of (key, value) pair. Thus, we can reduce the cost of finding the occurrence and hence the time complexity.
+
+CODE : 
+
+function getSingleElement(arr) {
+    // Size of the array:
+    let n = arr.length;
+
+    // Find the maximum element:
+    let maxi = arr[0];
+    for (let i = 0; i < n; i++) {
+        maxi = Math.max(maxi, arr[i]);
+    }
+
+    // Declare hash array of size maxi+1
+    // And hash the given array:
+    let hash = new Array(maxi + 1).fill(0);
+    for (let i = 0; i < n; i++) {
+        hash[arr[i]]++;
+    }
+    //console.log(hash)//[ 0, 2, 2, 0, 1 ]
+    // Find the single element and return the answer:
+    for (let i = 0; i < n; i++) {
+        if (hash[arr[i]] === 1) {
+            return arr[i];
+        }
+    }
+
+    // This line will never execute
+    // if the array contains a single element.
+    return -1;
+}
+
+function main() {
+    let arr = [4, 1, 2, 1, 2];
+    let ans = getSingleElement(arr);
+    console.log("The single element is:", ans);
+}
+
+main();
+
+Complexity Analysis : 
+Time Complexity: O(N)+O(N)+O(N), where N = size of the array
+Reason: One O(N) is for finding the maximum, the second one is to hash the elements and the third one is to search the single element in the array.
+
+Space Complexity: O(maxElement+1) where maxElement = the maximum element of the array.
+
+///////////////////////////////////////////////////////////////////////////////////////
+
+Better Approach 2 : 
+Algorithm / Intuition
+Hashing using the map data structure: 
+Intuition:
+The intuition will be the same as the array hashing. The only difference here is we will use the map data structure for hashing instead of using another array for hashing.
+
+CODE : 
+
+function getSingleElement(arr) {
+  // Size of the array:
+  const n = arr.length;
+
+  // Declare the hashmap.
+  // And hash the given array:
+  const hashmap = new Map();
+  for (let i = 0; i < n; i++) {
+    const num = arr[i];
+    hashmap.set(num, (hashmap.get(num) || 0) + 1);
+  }
+
+  // Find the single element and return the answer:
+  for (const [num, count] of hashmap) {
+    if (count === 1) {
+      return num;
+    }
+  }
+
+  // This line will never execute
+  // if the array contains a single element.
+  return -1;
+}
+
+function main() {
+  const arr = [4, 1, 2, 1, 2];
+  const ans = getSingleElement(arr);
+  console.log("The single element is:", ans);
+}
+
+main();
+
+
+Complexity Analysis
+Time Complexity: O(N*logM) + O(M), where M = size of the map i.e. M = (N/2)+1. N = size of the array.
+Reason: We are inserting N elements in the map data structure and insertion takes logM time(where M = size of the map). So this results in the first term O(N*logM). The second term is to iterate the map and search the single element. In Java, HashMap generally takes O(1) time complexity for insertion and search. In that case, the time complexity will be O(N) + O(M).
+
+Note: The time complexity will be changed depending on which map data structure we are using. If we use unordered_map in C++, the time complexity will be O(N) for the best and average case instead of O(N*logM). But in the worst case(which rarely happens), it will be nearly O(N2).
+
+Space Complexity: O(M) as we are using a map data structure. Here M = size of the map i.e. M = (N/2)+1.
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Optimal Approach
+Algorithm / Intuition
+Optimal Approach(Using XOR): 
+Intuition:
+
+So, if we perform the XOR of all the numbers of the array elements, we will be left with a single number.
+
+Complexity Analysis :
+Time Complexity: O(N), where N = size of the array.
+Reason: We are iterating the array only once.
+
+Space Complexity: O(1) as we are not using any extra space.

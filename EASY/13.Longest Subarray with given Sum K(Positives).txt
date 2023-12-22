@@ -1,0 +1,149 @@
+Problem Statement: Given an array and a sum k, we need to print the length of the longest subarray that sums to k.
+
+Examples
+Example 1:
+Input Format: N = 3, k = 5, array[] = {2,3,5}
+Result: 2
+Explanation: The longest subarray with sum 5 is {2, 3}. And its length is 2.
+
+Example 2:
+Input Format: N = 5, k = 10, array[] = {2,3,5,1,9}
+Result: 3
+Explanation: The longest subarray with sum 10 is {2, 3, 5}. And its length is 3.
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Algorithm / Intuition
+Solution 1:
+Naive Approach (Brute-force approach): 
+Here, in this approach, we are going to generate all possible subarrays to solve this problem.
+
+CODE:
+
+function getLongestSubarray(a, k) {
+  let n = a.length; // size of the array
+
+  let len = 0;
+  for (let i = 0; i < n; i++) {
+    // starting index
+    for (let j = i; j < n; j++) {
+      // ending index
+      // add all the elements of subarray = a[i...j]
+      let s = 0;
+      for (let K = i; K <= j; K++) {
+        s += a[K];
+      }
+
+      if (s === k) {
+        len = Math.max(len, j - i + 1);
+      }
+    }
+  }
+  return len;
+}
+
+let a = [2, 3, 5, 1, 9];
+let k = 10;
+let len = getLongestSubarray(a, k);
+console.log("The length of the longest subarray is:", len);
+
+
+Complexity Analysis : 
+
+Time Complexity: O(N3) approx., where N = size of the array.
+Reason: We are using three nested loops, each running approximately N times.
+
+Space Complexity: O(1) as we are not using any extra space.
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
+Solution 2:
+Algorithm / Intuition
+Optimizing the Naive Approach (Using two loops): 
+
+CODE : 
+
+function getLongestSubarray(a, k) {
+    let n = a.length; // size of the array
+
+    let len = 0;
+    for (let i = 0; i < n; i++) { // starting index
+        let s = 0; // Sum variable
+        for (let j = i; j < n; j++) { // ending index
+            // add the current element to
+            // the subarray a[i...j-1]
+            s += a[j];
+
+            if (s === k)
+                len = Math.max(len, j - i + 1);
+        }
+    }
+    return len;
+}
+
+let a = [2, 3, 5, 1, 9];
+let k = 10;
+let len = getLongestSubarray(a, k);
+console.log("The length of the longest subarray is:", len);
+
+Complexity Analysis : 
+
+Time Complexity: O(N2) approx., where N = size of the array.
+Reason: We are using two nested loops, each running approximately N times.
+
+Space Complexity: O(1) as we are not using any extra space.
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
+
+Solution 3:
+Algorithm / Intuition
+Better Approach(Using Hashing): 
+
+CODE : 
+
+
+function getLongestSubarray(a, k) {
+  let n = a.length; // size of the array
+  let preSumMap = new Map();
+  let sum = 0;
+  let maxLen = 0;
+  for (let i = 0; i < n; i++) {
+    // calculate the prefix sum till index i
+    sum += a[i];
+    // if the sum = k, update the maxLen
+    if (sum === k) {
+      maxLen = Math.max(maxLen, i + 1);
+    }
+    // calculate the sum of remaining part i.e. x - k
+    let rem = sum - k;
+    // calculate the length and update maxLen
+    if (preSumMap.has(rem)) {
+      let len = i - preSumMap.get(rem);
+      maxLen = Math.max(maxLen, len);
+    }
+    // update the map checking the conditions
+    if (!preSumMap.has(sum)) {
+      preSumMap.set(sum, i);
+    }
+  }
+
+  return maxLen;
+}
+
+let a = [2, 3, 5, 1, 9];
+let k = 10;
+let len = getLongestSubarray(a, k);
+console.log("The length of the longest subarray is:", len);
+///////////////////////////////////////////////////////////////////////////////////////////
+
+Solution 4
+Algorithm / Intuition
+Optimal Approach (Using 2 pointers): 
+ 
+Complexity Analysis : 
+
+Time Complexity: O(2*N), where N = size of the given array.
+Reason: The outer while loop i.e. the right pointer can move up to index n-1(the last index). Now, the inner while loop i.e. the left pointer can move up to the right pointer at most. So, every time the inner loop does not run for n times rather it can run for n times in total. So, the time complexity will be O(2*N) instead of O(N2).
+
+Space Complexity: O(1) as we are not using any extra space.
+

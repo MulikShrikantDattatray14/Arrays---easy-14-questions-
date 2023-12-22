@@ -1,0 +1,112 @@
+Problem Statement: Given an array, we have to find the largest element in the array.
+
+Example 1:
+Input: arr[] = {2,5,1,3,0};
+Output: 5
+Explanation: 5 is the largest element in the array. 
+
+Example2: 
+Input: arr[] = {8,10,5,7,9};
+Output: 10
+Explanation: 10 is the largest element in the array. 
+
+
+Brute Force Approach :
+
+/////////////////////////////////////////////////////////////////////////////////
+Algorithm / Intuition : 
+
+Solution1: Sorting
+
+Intuition:
+We can sort the array in ascending order, hence the largest element will be at the last index of the array. 
+
+Approach: 
+Sort the array in ascending order.
+Print the (size of the array -1)th index.
+DryRun: 
+Before sorting: arr[] = {2,5,1,3,0};
+
+After sorting: arr[] = {0,1,2,3,5};
+
+Hence answer : arr[sizeofthearray-1] =5
+
+ code : 
+
+function sortArr(arr) {
+  arr.sort((a, b) => a - b);
+  return arr[arr.length - 1];
+}
+
+const arr1 = [2, 5, 1, 3, 0];
+const arr2 = [8, 10, 5, 7, 9];
+
+console.log("The Largest element in the array is: " + sortArr(arr1));
+console.log("The Largest element in the array is: " + sortArr(arr2));
+
+Complexity Analysis :
+
+Let's analyze the time and space complexity:
+
+Time Complexity:
+
+The dominant factor in terms of time complexity is the sorting operation. The JavaScript sort method typically has a time complexity of O(n log n), where n is the length of the array.
+Accessing the last element in the sorted array (arr[arr.length - 1]) has a constant time complexity of O(1).
+Therefore, the overall time complexity is O(n log n) due to the sorting operation.
+
+Space Complexity:
+
+The sort method in JavaScript typically uses an in-place sorting algorithm, which means it doesn't require additional space proportional to the input size. Therefore, the space complexity of the sorting operation is O(1).
+The function uses a constant amount of space for variables (arr, a, b), and the space required for these variables doesn't depend on the input size.
+The overall space complexity is O(1).
+
+In summary, the time complexity is O(n log n), and the space complexity is O(1).
+
+/////////////////////////////////////////////////////////////////////////////////
+Solution2: Using a max variable 
+
+Intuition:
+We can maintain a max variable that will update whenever the current value is greater than the value in the max variable.  
+
+Approach: 
+1.Create a max variable and initialize it with arr[0].
+2.Use a for loop and compare it with other elements of the array
+3.If any element is greater than the max value, update max value with the element’s value
+4.Print the max variable.
+
+code : 
+
+
+function findLargestElement(arr) {
+  let max = arr[0];
+  for (let i = 0; i < arr.length; i++) {
+    if (max < arr[i]) {
+      max = arr[i];
+    }
+  }
+  return max;
+}
+
+const arr1 = [2, 5, 1, 3, 0];
+let max = findLargestElement(arr1);
+console.log("The largest element in the array is: " + max);
+
+const arr2 = [8, 10, 5, 7, 9];
+max = findLargestElement(arr2);
+console.log("The largest element in the array is: " + max);
+
+
+Let's analyze the time and space complexity of the provided code:
+
+Time Complexity:
+The time complexity of the given code is O(n), where n is the length of the input array. This is because there is a single loop that iterates through each element of the array once. The loop performs constant time operations for each iteration, and the number of iterations is directly proportional to the size of the input array.
+
+Space Complexity:
+The space complexity of the code is O(1), which is constant. Regardless of the size of the input array, the amount of additional memory used by the algorithm remains constant. The algorithm only uses a constant amount of space to store the variables max, i, and arr.
+
+In summary:
+
+Time Complexity: O(n)
+Space Complexity: O(1)
+
+
